@@ -41,11 +41,15 @@ function sortProps(node) {
         priorityMap[prop.toLowerCase()] = index;
     });
     node.attributes.sort((a, b) => {
-        var _a, _b;
+        var _a, _b, _c, _d;
+        if (!((_a = a.name) === null || _a === void 0 ? void 0 : _a.name) || !((_b = b.name) === null || _b === void 0 ? void 0 : _b.name)) {
+            log('Invalid attribute structure', a, b);
+            return 0;
+        }
         const aName = a.name.name.toLowerCase();
         const bName = b.name.name.toLowerCase();
-        const aPriority = (_a = priorityMap[aName]) !== null && _a !== void 0 ? _a : -1;
-        const bPriority = (_b = priorityMap[bName]) !== null && _b !== void 0 ? _b : -1;
+        const aPriority = (_c = priorityMap[aName]) !== null && _c !== void 0 ? _c : -1;
+        const bPriority = (_d = priorityMap[bName]) !== null && _d !== void 0 ? _d : -1;
         // compare by priority first
         if (aPriority !== -1 && bPriority !== -1) {
             return aPriority - bPriority;

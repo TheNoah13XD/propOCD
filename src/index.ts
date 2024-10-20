@@ -9,7 +9,7 @@ const log = debug('propOCD');
 
 interface JSXAttribute {
   type: string;
-  name: { name: string };
+  name?: { name?: string };
 }
 
 interface JSXOpeningElement {
@@ -29,6 +29,11 @@ function sortProps(node: JSXOpeningElement): void {
   });
 
   node.attributes.sort((a, b) => {
+    if (!a.name?.name || !b.name?.name) {
+      log('Invalid attribute structure', a, b);
+      return 0;
+    }
+
     const aName = a.name.name.toLowerCase();
     const bName = b.name.name.toLowerCase();
 
