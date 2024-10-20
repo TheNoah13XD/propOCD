@@ -1,0 +1,42 @@
+{
+  "name": "propocd",
+  "version": "1.0.0",
+  "description": "A prettier plugin to sort Chakra UI JSX props by priority",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "prettier-plugin": "dist/index.js",
+  "repository": {
+    "url": "https://github.com/TheNoah13XD/propOCD",
+    "type": "git"
+  },
+  "homepage": "https://github.com/TheNoah13XD/propOCD#readme",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "prettier-plugin",
+    "chakra-ui",
+    "jsx",
+    "props",
+    "sorting",
+    "prettier",
+    "plugin"
+  ],
+  "author": {
+    "name": "Noah Patrick",
+    "email": "noah@brkn.me",
+    "url": "https://github.com/TheNoah13XD"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@babel/types": "^7.25.8",
+    "debug": "^4.3.7"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.12",
+    "@types/node": "^22.7.7",
+    "@types/prettier": "^3.0.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
+  }
+}
