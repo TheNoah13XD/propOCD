@@ -1,6 +1,6 @@
 {
   "name": "propocd",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A prettier plugin to sort Chakra UI JSX props by priority",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

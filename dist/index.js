@@ -26,6 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 const parser_babel_1 = require("prettier/parser-babel");
+const parser_typescript_1 = require("prettier/parser-typescript");
 const t = __importStar(require("@babel/types"));
 const debug_1 = __importDefault(require("debug"));
 const chakraPriorityOrder_1 = __importDefault(require("./chakraPriorityOrder"));
@@ -64,6 +65,28 @@ const propOCD = {
             ...parser_babel_1.parsers.babel,
             parse(text, options) {
                 const ast = parser_babel_1.parsers.babel.parse(text, options);
+                function traverse(node) {
+                    if (node && typeof node === 'object') {
+                        if (Array.isArray(node)) {
+                            node.forEach(traverse);
+                        }
+                        else if (t.isJSXOpeningElement(node)) {
+                            sortProps(node);
+                        }
+                        Object.keys(node).forEach((key) => {
+                            const value = node[key];
+                            traverse(value);
+                        });
+                    }
+                }
+                traverse(ast);
+                return ast;
+            },
+        },
+        typescript: {
+            ...parser_typescript_1.parsers.typescript,
+            parse(text, options) {
+                const ast = parser_typescript_1.parsers.typescript.parse(text, options);
                 function traverse(node) {
                     if (node && typeof node === 'object') {
                         if (Array.isArray(node)) {

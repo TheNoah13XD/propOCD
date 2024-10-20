@@ -1,5 +1,6 @@
 import { Plugin, ParserOptions } from 'prettier';
-import { parsers } from 'prettier/parser-babel';
+import { parsers as babelParsers } from 'prettier/parser-babel';
+import { parsers as typescriptParsers } from 'prettier/parser-typescript';
 import * as t from '@babel/types';
 import debug from 'debug';
 import chakraPriorityOrder from './chakraPriorityOrder';
@@ -51,9 +52,33 @@ function sortProps(node: JSXOpeningElement): void {
 const propOCD: Plugin = {
   parsers: {
     babel: {
-      ...parsers.babel,
+      ...babelParsers.babel,
       parse(text: string, options: ParserOptions<t.File>) {
-        const ast = parsers.babel.parse(text, options) as t.File;
+        const ast = babelParsers.babel.parse(text, options) as t.File;
+
+        function traverse(node: t.Node): void {
+          if (node && typeof node === 'object') {
+            if (Array.isArray(node)) {
+              node.forEach(traverse);
+            } else if (t.isJSXOpeningElement(node)) {
+              sortProps(node as unknown as JSXOpeningElement);
+            }
+
+            Object.keys(node).forEach((key) => {
+              const value = (node as t.Node & Record<string, t.Node>)[key];
+              traverse(value);
+            });
+          }
+        }
+
+        traverse(ast);
+        return ast;
+      },
+    },
+    typescript: {
+      ...typescriptParsers.typescript,
+      parse(text: string, options: ParserOptions<t.File>) {
+        const ast = typescriptParsers.typescript.parse(text, options) as t.File;
 
         function traverse(node: t.Node): void {
           if (node && typeof node === 'object') {
