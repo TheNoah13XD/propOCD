@@ -5,7 +5,7 @@ a prettier plugin to manage your obsessive compulsive disorder by sorting your p
 ## Installation
 
 ```bash
-npm install --save-dev propOCD
+npm install --save-dev propocd
 ```
 
 ## Usage
